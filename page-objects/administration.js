@@ -29,13 +29,13 @@ createNewPupil: async function(firstname, lastname, email) {
     await secondName.setValue(lastname);
     let eMail = await driver.$(Admin.setEmail);
     await eMail.setValue(email);
-    await this.executeScript();
+    await this.setDate();
     let sendAMessageBox = await driver.$(Admin.sendALinkBox);
     await sendAMessageBox.click();
     let addButton = await driver.$('body > div.modal.fade.add-modal.in > div > div > form > div.modal-footer > button.btn.btn-primary.btn-submit');
     await addButton.click();
 },
-executeScript: async function() {
+setDate: async function() {
     await driver.pause(1500);
     await driver.execute('document.querySelector("#create_birthday").value = "13.08.1990"')
 },
