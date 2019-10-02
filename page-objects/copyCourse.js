@@ -33,14 +33,8 @@ module.exports = {
   },
   chooseCourse: async function() {
     let coursesContainer = await driver.$('div[data-testid=\'courses\']');
-    let courses = await driver.$$('div[data-testid=\'courses\'] > div');
-    let lastCourseIndex = courses.length;
-    //let lastCourse = await driver.$('div[data-testid=\'courses\'] > div:nth-child' + '('+ lastCourseIndex + ')');
-    let lastCourse = await driver.$('div[data-testid=\'courses\'] > div:nth-child(1)');
+    let lastCourse = await coursesContainer.$('div:nth-child(1)');
     await lastCourse.click(); 
-    // wir gehen davon aus, dass noch keine aktuelle Kurse vorhanden sind:
-    /*let course = await driver.$('div[data-testid=\'courses\'] > div');
-    await course.click(); */
   },
   addThema: async function() {
     let addBtn = await driver.$(

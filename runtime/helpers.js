@@ -414,7 +414,7 @@ module.exports = {
      * @param expectedText
      */
   assertText: async function (selector, expected) {
-    await driver.waitForEnabled(selector, DELAY_5_SECOND);
+    // await driver.waitForEnabled(selector, DELAY_5_SECOND);
     let actual = await driver.getText(selector);
     actual = actual.trim();
     assert.equal(actual, expected);

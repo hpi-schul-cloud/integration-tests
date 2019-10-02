@@ -3,15 +3,18 @@ const firstLogin = require('../shared_steps/firstLogin.js');
 const { expect } = require('chai');
 const Admin = require('../shared-objects/administrationData');
 var length;
-let oldPassword;
-let eMAIL;
 let name;
-let newPassword = "Schulcloud1!"
+let eMAIL;
+
 
 module.exports = {
 goToAdministration: function() {
     let url = Admin.urlAdministration;
     return helpers.loadPage(url, 10);
+},
+performCreateNewPupil: async function(firstname, lastname, email) {
+    await this.createNewPupil(firstname, lastname, email);
+    await this.clickAddBtn();
 },
 createNewPupil: async function(firstname, lastname, email) {
     name=firstname;
@@ -31,8 +34,12 @@ createNewPupil: async function(firstname, lastname, email) {
     await this.executeScript();
     let sendAMessageBox = await driver.$(Admin.sendALinkBox);
     await sendAMessageBox.click();
-    let addButton = await driver.$('body > div.modal.fade.add-modal.in > div > div > form > div.modal-footer > button.btn.btn-primary.btn-submit');
-    await addButton.click();
+},
+clickAddBtn: async function() {
+    let confirmBtnContainer = await driver.$('.modal.fade.add-modal');
+    let confirmBtn = await confirmBtnContainer.$('button[type="submit"]');
+    await confirmBtn.click();
+
 },
 executeScript: async function() {
     await driver.pause(1500);
@@ -67,11 +74,4 @@ submitConsent: async function(e_mail) {
         }
     }
 },
-newPupilLogsIn: async function() {
-    await firstLogin.logout();
-    await firstLogin.pupilLogin(eMAIL, oldPassword);
-},
-pupilAcceptsDataProtection: async function() {
-    await firstLogin.firstLoginPupilFullAge(name, newPassword);
-}
 }

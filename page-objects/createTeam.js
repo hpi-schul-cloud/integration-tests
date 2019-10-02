@@ -110,5 +110,13 @@ module.exports = {
         const teamNames = await Promise.all(namePromises);
         return teamNames;
     },
+    addOneTeamMemberHelperForTeamNews: async function(teammember1) {
+        await this.clickSettings();
+        await this.clickAdministrateTeammembers();
+        await this.clickAddInternamMembers();
+        await this.addTeamMembersSteps(teammember1);
+        await this.submitAddTeammemberAfterAllMemebersWereAdded();
+        await driver.pause(1500);
+      }
   
 }

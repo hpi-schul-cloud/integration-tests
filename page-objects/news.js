@@ -2,6 +2,7 @@
 const { CLIENT } = require("../shared-objects/servers");
 let administration = require('../page-objects/administration');
 const firstLogin = require('../shared_steps/firstLogin.js');
+const pupilLogin = require('../page-objects/pupilLogin.js');
 const teams = require('../page-objects/createTeam');
 const { expect } = require('chai');
 let newsName1 = "News for Team A";
@@ -112,28 +113,13 @@ module.exports = {
     await expect(newsNames).to.not.include(name);
   },
   createTeam: async function(firstname, lastname, email, team_name, fullname) {
-    await administration.createNewPupil(firstname, lastname, email);
+    await administration.performCreateNewPupil(firstname, lastname, email);
     await this.submitConsent(email);
     await teams.createATeamSTEPS(team_name);
     await teams.addMembersToTheTeamSTEPS();
     await teams.addTeamMemberSTEPS(fullname);
   },
-  createTwoTeams: async function() {
-    await this.createTeam(firstnameONE, lastnameONE, emailONE, team_name_one, fullnameONE);
-    oldPassword1 =oldPassword;
-    await teams.addTeamMemberOne();
-    await this.gotoTeams();
-    await this.createTeamNewsForTeam(team_name_one);
-    await this.createTeamNewsForTeamONE();
-    await driver.pause(1000);
-    await this.createTeam(firstnameTWO, lastnameTWO, emailTWO, team_name_two, fullnameTWO);
-    oldPassword2 = oldPassword;
-    await teams.addTeamMemberTwo();
-    await this.gotoTeams();
-    await this.createTeamNewsForTeam(team_name_two);
-    await this.createTeamNewsForTeamTWO();
-    await driver.pause(1000);
-  },
+
   createTeamNewsForTeam: async function(team_name) {
     let teamElementsArray = await driver.$$('#main-content > section > section > div > div > div');
     for (var i=0; i<=teamElementsArray.length-1; i++) {
@@ -145,31 +131,43 @@ module.exports = {
       }
     }
   },
-  createTeamNewsForTeamONE: async function() {
-      let teamone = await driver.$('#main-content > section > section > div > div > div:nth-child('+index[0]+') > article > div');
-      await teamone.click();
-      await this.gotoTeamNews();
-      await this.createNews(newsName1);
-  },
-    createTeamNewsForTeamTWO: async function() {
-      let teamone = await driver.$('#main-content > section > section > div > div > div:nth-child('+index[1]+') > article > div');
-      await teamone.click();
-      await this.gotoTeamNews();
-      await this.createNews(newsName2);
-      
-    },
+  
     gotoTeamNews: async function() {
       let newsTab = await driver.$('[data-tab="js-news"] > span');
       await newsTab.click();
       let btn = await driver.$(team.submitBtn);
       await btn.click();
     },
+    getTeamIndexByName: async function(teamname) {
+      let container = await driver.$('div[data-testid="container"]');
+      let titles = await container.$$('.title');
+      for(var i=0; i<=titles.length; i++) {
+        if(await titles[i].getText()==teamname) {
+          return i+1;
+        }
+      }
+    },
+    chooseTeamByIndex: async function(teamname) {
+      let index = await this.getTeamIndexByName(teamname);
+      let container = await driver.$('div[data-testid="container"]');
+      let team = await container.$('div:nth-child('+index+')');
+      await team.click();
+      await driver.pause(1000);
+
+    },
+    createTeamNews: async function(teamname) {
+      let newsName = 'news for '+teamname+' and only'
+      await teams.goToTeams();
+      await this.chooseTeamByIndex(teamname);
+      await this.gotoTeamNews();
+      await this.createNews(newsName);
+    },
   createTeamNewsSTEPS: async function() {
     let newsTab = await driver.$(team.newsTab);
     await newsTab.click();
     let newsBtn = await driver.$(team.submitBtn);
     await newsBtn.click();
-    await this.createNews();
+ 
   },
   submitConsent: async function(e_mail) {
     let names = await driver.$$(Admin.namesContainer + ' > tr');
@@ -200,7 +198,12 @@ module.exports = {
     await this.gotoNews();
     await this.shouldBeVisible(newsName2)
   },
-  canNonTeamMemberSeeTheNews: async function() {
+  canNonTeamMemberSeeTheNews: async function(email, password, teamname) {
+    let teamNews = 'news for '+teamname+' and only';
+    let new_password = 'Schulcloud1!';
+    await firstLogin.logout();
+    await pupilLogin.performLogin(email,password)
+    await firstLogin.firstLoginPupilFullAge(email, new_password);
     await this.gotoNews();
     await this.shouldNotBeVisible(newsName1)
   },

@@ -98,5 +98,8 @@ module.exports = {
       'body > section > div.content-min-height > nav > ul > li:nth-child(5) > div > div > div > a:nth-child(3)'
     );
     await logOut.click();
-  }
+  }, 
+  getFullname: async function(firstname, lastname) {
+    return firstname+" "+lastname;
+  },
 };

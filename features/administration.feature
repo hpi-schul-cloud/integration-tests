@@ -16,3 +16,5 @@ Feature: Administrate pupils, classes and teachers
     Examples:
       |firstName|secondName|email|
       |Georg|Georgmann|georgmann@schul-cloud.org|
+      |Laura|Schwarz|schwarzn@schul-cloud.org|
+
