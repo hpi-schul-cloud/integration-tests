@@ -2,6 +2,7 @@ const { CLIENT } = require("./servers");
 
 module.exports = {
   urlAdministration: `${CLIENT.URL}/administration`,
+  urlSchoolAdministraion: `${CLIENT.URL}/administration/school`,
   submitBtn: 'button[type=\'submit\']',
   administrateStudentsBtn: 'div[data-testid=\'administrate_students\']',
   administrateTeachersBtn: 'div[data-testid=\'administrate_teachers\']',
