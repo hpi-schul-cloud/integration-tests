@@ -18,8 +18,8 @@ When teacher submits the data
 Then the hometask <taskname> is to be found at the task pannel
 
 Examples:
-| coursename | firstname| lastname | taskname| 
-| test hometask  | Paula | Meyer | task example | 
+| coursename     | firstname | lastname | taskname     | 
+| test hometask  | Paula     | Meyer    | task example | 
 
 @createPrivateHomework
 Scenario Outline: create a private hometask
@@ -42,14 +42,14 @@ Then the teacher can evaluate it
 @submitFileHomework
 Scenario Outline: 
 Given the Teacher creates one course with <coursename> and pupil with:
-When Teacher creates a homework for the course <coursename> and
+When Teacher creates a homework for the course <coursename>
 When the teacher puts in data <taskname> and some text description of the task
 When the User logs in with <username> <password> and
 When the user goes to the course <coursename> where the hometask <taskname> must be submitted
 Then the students can upload a file as a solution
 
 Examples:
-| coursename | firstname   | lastname | taskname   | username                     | password |
+| coursename            | firstname   | lastname | taskname   | username                     | password |
 | course with file task | Paula       | Meyer    | file task  | paula.meyer@schul-cloud.org  | Schulcloud1! |
 
 

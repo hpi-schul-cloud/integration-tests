@@ -108,6 +108,12 @@ module.exports = {
     let url = `${CLIENT.URL}/homework/`;
     await helpers.loadPage(url, 100);
   },
+  gotoTasksTab: async function() {
+   let hometasksTab = await driver.$('button[data-testid="hometasks"]');
+   await hometasksTab.click();
+   let selectorToBeLoaded = await driver.$('.col-sm-12.container');
+   await selectorToBeLoaded.waitForExist(3000); 
+  }, 
   gotoCourses: async function() {
     let url = `${CLIENT.URL}/courses/`;
     await helpers.loadPage(url, 100);
@@ -142,8 +148,7 @@ module.exports = {
     }
     return false;
   },
-  chooseTask: async function(taskname) {
-
+  chooseTaskAmongAllTasks: async function(taskname) {
     let taskindex = await this.returnTaskIndex(taskname);
     if(taskindex!=false) {
       let task = await driver.$('.col-xl-12 > li:nth-child('+taskindex+') > a:nth-child(3)> h2');
@@ -157,11 +162,26 @@ module.exports = {
     await driver.close();
     }
   }, 
+  chooseTasksAmongCourseTasks: async function() {
+    let container = await driver.$('#homeworks .homework .row');
+    let taskObjects = await container.$$('li');
+    for (var i=1; i<=taskObjects.length-1; i++) {
+      let container = await driver.$('#homeworks .homework .row');
+      let nameSelector = await container.$('li:nth-child('+i+') > a > .dates > h5.title');
+      let nameOfTask = await nameSelector.getText();
+      if(taskname==nameOfTask) {
+        
+      }
+
+    }
+
+
+  },
   chooseCourse: async function(coursename) {
-    const container = await driver.$('div[data-testid="courses"] > div');
+    const container = await driver.$('div[data-section="js-active"] div[data-testid="courses"] > div');
     let coursesObjects = await container.$$('div');
     for (var i=1; i<=coursesObjects.length-1; i++) {
-      const container = await driver.$('div[data-testid="courses"] > div');
+      const container = await driver.$('div[data-section="js-active"] div[data-testid="courses"] > div');
       let nameOfCourseSelector = await container.$('div:nth-child('+i+') .title');
       let nameOfCourse = await nameOfCourseSelector.getText();
       if(nameOfCourse==coursename) {
@@ -175,7 +195,7 @@ module.exports = {
   verify: async function(taskname) {
     await this.gotoTasks();
     await this.sortHometasks();
-    await this.chooseTask(taskname);
+    await this.chooseTaskAmongAllTasks(taskname);
     let pageTitleSelector = await driver.$('#page-title');
     let courseAndTaskName = await pageTitleSelector.getText();
     let tasknameArray = await courseAndTaskName.split("- ");
@@ -184,13 +204,18 @@ module.exports = {
   },
 
   // other user logs in to verify 
-  pupilLogsInAndGoesToTasksOfTheCourse: async function(username, password, coursename) {
+  pupilLogsIn: async function(username, password) {
     await this.userLogsOut();
     await this.pupilLogin(username,password);
     await firstLogin.firstLoginPupilFullAge(username, password);
+  },
+  goToTasksOfTheCourse: async function (coursename, taskname) {
     await this.gotoCourses();
     await this.chooseCourse(coursename);
+    await this.gotoTasksTab();
+    await this.chooseTaskAmongAllTasks(taskname);
   },
+
 
   privateTaskVerify: async function() {
     let taskNames = await Promise.all(
