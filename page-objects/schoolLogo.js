@@ -9,20 +9,18 @@ module.exports = {
     let selector = await driver.$('#preview-logo');
     let src = await selector.getAttribute('src');
 
-   // let src = await selector.
-
+await driver.refresh();
       
 
   },
   uploadSchoolLogo: async function() {
    
     const filePath = path.join(__dirname, '../runtime/img/logo-logo-schwarz-100_760x340.png');
-
-   // const remoteFilePath = await driver.uploadFile(filePath);
+    const remoteFilePath = await driver.uploadFile(filePath);
     let uploadElement = await driver.$('#logo-input');
-    await driver.attachFile(uploadElement, filePath);
+   
     //await uploadElement.chooseFile(uploadElement, filePath);
-   // await uploadElement.setValue(remoteFilePath);
+    await uploadElement.setValue(remoteFilePath);
     await driver.pause(1500);
     let container = await driver.$('.edit-form-school');
     let submitBtn = await container.$('button[type="submit"]');

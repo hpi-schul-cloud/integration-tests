@@ -1,4 +1,5 @@
 'use strict';
+const { CLIENT } = require("../shared-objects/servers");
 
 const loginData = require('../shared-objects/loginData');
 const courseData = require('../shared-objects/courseData');
@@ -23,18 +24,14 @@ module.exports = {
     let result = after - before;
     await expect(result).to.equal(1);
   },
-  clickAdd: async function() {
-    let actualCourses = await driver.$(
-      '#main-content > section > div.course-card > div.tabContainer > div > button.tab.active > span'
-    );
-    await actualCourses.click();
-    let clickBtn = await driver.$(
-      'a[href="/courses/add"]'
-    );
-    await clickBtn.click();
+  createCourse: async function() {
+    let url = `${CLIENT.URL}/courses/add`;
+    await helpers.loadPage(url,100);
+    let selectorToBeLoaded = await driver.$('input[data-testid="coursename"]');
+    await selectorToBeLoaded.waitForExist(2000);
   },
   inputCourseName: async function(courseName) {
-    let inputCourseName = await driver.$(courseData.elem.nameCourse);
+    let inputCourseName = await driver.$('input[data-testid="coursename"]');
     await inputCourseName.setValue(courseName);
   },
   chooseColor: async function() {

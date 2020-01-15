@@ -12,7 +12,7 @@ let before;
 
 module.exports = {
   create: async function(name) {
-    await createCourse.clickAdd();
+    await createCourse.createCourse();
     await createCourse.inputCourseName(name);
     await createCourse.chooseColor();
     await addPupilToTheCourse.addVertretung();

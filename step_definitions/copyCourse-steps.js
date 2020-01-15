@@ -6,8 +6,6 @@ let copyCourse = require('../page-objects/copyCourse');
 let courseData = require('../shared-objects/courseData');
 const Login = require('../shared-objects/loginData');
 const firstLogin = require('../shared_steps/firstLogin.js');
-
-const { After, Before, AfterAll, BeforeAll } = require('cucumber');
 let before;
 
 //________Background_________
