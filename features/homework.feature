@@ -88,5 +88,17 @@ Examples:
 | coursename                        | firstname   | lastname | taskname   | username                     | password     | studentname  |
 | course with a task for submission | Paula       | Meyer    | task       | paula.meyer@schul-cloud.org  | Schulcloud1! | Paula Meyer  |
 
+@studentCanUploadHomework
+Scenario Outline: student uploads a homework
+Given the teacher creates one course with <coursename> and student with <studentname>
+Given teacher clicks "create a new home task" in the course <coursename> with <taskname>
+When student with <username>, <password> of this course <coursename> goes to hometasks
+When the student finds <taskname>
+Then the student can upload a file as a solution
+Then the teacher can see the file in course <coursename> of task <taskname> done by student <studentname>
+
+Examples:
+| coursename                        | firstname   | lastname | taskname   | username                     | password     | studentname  |
+| course with a task for upload     | Paula       | Meyer    | task       | paula.meyer@schul-cloud.org  | Schulcloud1! | Paula Meyer  |
 
 #TODO: attach data, submit data

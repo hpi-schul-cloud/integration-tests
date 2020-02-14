@@ -114,7 +114,7 @@ module.exports = {
     await nameSelector.setValue(taskname);
     await helpers.waitAndClick(courseData.elem.teamworkActivate);
     await this.setAccomplishTime();
-    await this.setHometaskText();
+    //await this.setHometaskText();
     await helpers.waitAndClick(courseData.elem.submitAddHomeworkBtn); 
   },
   addPrivateHometask: async function(coursename, taskname) {
@@ -385,13 +385,22 @@ module.exports = {
   
   uploadAHomework: async function() {
     //making the upload-element visible to selenium
-    change_visibility = '$x("//*[@id="main-content"]/div/section[1]/div/div/div[1]/input").css("visibility,"visible");';
-    change_display = '$x("//*[@id="main-content"]/div/section[1]/div/div/div[1]/input").css("display,"block");';
+    /*let change_visibility = '$x("//*[@id="main-content"]/div/section[1]/div/div/div[1]/input").css("visibility,"visible");';
+    let change_display = '$x("//*[@id="main-content"]/div/section[1]/div/div/div[1]/input").css("display,"block");';
     await driver.execute_script(change_visibility);
-    await driver.execute_script(change_display);
+    await driver.execute_script(change_display);*/
 
     const path = require('path');
     const filePath = path.join(__dirname, '../shared-objects/fileUpldFolder/upload.txt');
     await driver.$x(courseData.uploadBtn).send_keys(filePath);
+  },
+  
+  addBasicHometaskWithoutText: async function(coursename, taskname) {
+    await this.clickCreateNewTaskInTheCourse(coursename);
+    let nameSelector = await driver.$(courseData.elem.homeworkName);
+    await nameSelector.setValue(taskname);
+    await helpers.waitAndClick(courseData.elem.teamworkActivate);
+    await this.setAccomplishTime();
+    await helpers.waitAndClick(courseData.elem.submitAddHomeworkBtn); 
   },
 };

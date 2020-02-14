@@ -145,7 +145,7 @@ When(
     return homework.uploadAHomework();
   }
 );
-Then(/^the students can upload a file as a solution$/, function() {
+Then(/^the student can upload a file as a solution$/, function() {
   return homework.uploadAHomework();
 });
 // student deletes homework
