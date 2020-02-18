@@ -1,5 +1,7 @@
 # BDD Testing for the HPI Schul-Cloud
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/schul-cloud/integration-tests.svg)](https://greenkeeper.io/)
+
 
 ## Available Tests
 
