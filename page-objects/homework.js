@@ -392,7 +392,12 @@ module.exports = {
 
     const path = require('path');
     const filePath = path.join(__dirname, '../shared-objects/fileUpldFolder/upload.txt');
-    await driver.$(courseData.uploadBtn).send_keys(filePath);
+    const remoteFilePath =  await driver.uploadFile(filePath);
+    let uploadButton = await driver.$(courseData.elem.uploadBtn);
+    //let pathArray = [remoteFilePath, remoteFilePath];
+    await uploadButton.sendKeys(remoteFilePath);
+
+    //await driver.$(courseData.uploadBtn).send_keys(filePath);
   },
   
   addBasicHometaskWithoutText: async function(coursename, taskname) {
