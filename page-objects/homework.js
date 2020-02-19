@@ -101,7 +101,7 @@ module.exports = {
   // add homework related functions (as a teacher)
   clickCreateNewTaskInTheCourse: async function(coursename) {
     await copyCourse.chooseCourse(coursename);
-    let homeworktab = await driver.$('.tabs button[data-testid="hometasks"]');
+    let homeworktab = await driver.$('button[data-testid="hometasks"]');
     await homeworktab.click();
     await helpers.waitAndClick(courseData.elem.addHomeworkBtn);
   }, 
