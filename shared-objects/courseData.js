@@ -7,6 +7,7 @@ module.exports = {
   urlLogout: `${CLIENT.URL}/logout`,
   urlLernStore: `${CLIENT.URL}/content/?inline=1&isCourseGroupTopic=true`,
   urlHomework: `${CLIENT.URL}/homework`,
+  urlPrivateHomework: `${CLIENT.URL}/homework/private`,
   urlHomeworkArchiv: `${CLIENT.URL}/homework/archive`,
   urlDashboard: `${CLIENT.URL}/dashboard`,
   elem: {
@@ -38,7 +39,7 @@ module.exports = {
     selectorWithMultipleChoiceStudents:'select[data-testid=\'pupils\']',
     homeworkTab: 'button[data-testid="hometask"]',
     addHomeworkBtn: '.col-sm-12.add-button>a',
-    homeworkName: '#homework-form > div:nth-child(1) > input',
+    homeworkName: 'input[data-testid=\'name_of_task\']',
     submitAddHomeworkBtn: '.btn.btn-primary.btn-submit',
     checkbox: '[data-testid="private-checkbox"]',
     teamworkActivate: '#teamSubmissions',
