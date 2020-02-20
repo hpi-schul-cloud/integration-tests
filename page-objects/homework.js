@@ -391,11 +391,23 @@ module.exports = {
     let uploadButton = await driver.$(courseData.elem.uploadBtn);
 
     driver.execute(
-      (el) => el.style.display = 'block',
+      (el) => el.style.display = "block",
+      uploadButton
+    );
+    driver.execute(
+      (el) => el.style.visibility = "visible",
+      uploadButton
+    );
+    driver.execute(
+      (el) => el.style.width = 50,
+      uploadButton
+    );
+    driver.execute(
+      (el) => el.style.height = 50,
       uploadButton
     );
     uploadButton.waitForDisplayed();
-    
+
     await uploadButton.setValue(remoteFilePath);
     //await uploadButton.sendKeys(remoteFilePathArray);
 
