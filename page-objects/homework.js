@@ -394,9 +394,9 @@ module.exports = {
       (el) => el.style.display = 'block',
       uploadButton
     );
-    
     uploadButton.waitForDisplayed();
-    await driver.$(uploadButton).setValue(remoteFilePath);
+    
+    await uploadButton.setValue(remoteFilePath);
     //await uploadButton.sendKeys(remoteFilePathArray);
 
   },
