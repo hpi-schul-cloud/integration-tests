@@ -393,9 +393,10 @@ module.exports = {
     const path = require('path');
     const filePath = path.join(__dirname, '../shared-objects/fileUpldFolder/upload.txt');
     const remoteFilePath =  await driver.uploadFile(filePath);
+    let remoteFilePathArray = new Array(remoteFilePath);
     let uploadButton = await driver.$(courseData.elem.uploadBtn);
     //let pathArray = [remoteFilePath, remoteFilePath];
-    await uploadButton.sendKeys(remoteFilePath);
+    await uploadButton.sendKeys(remoteFilePathArray);
 
     //await driver.$(courseData.uploadBtn).send_keys(filePath);
   },
