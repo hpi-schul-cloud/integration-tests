@@ -384,20 +384,20 @@ module.exports = {
    },
   
   uploadAHomework: async function() {
-    //making the upload-element visible to selenium
-    /*let change_visibility = '$x("//*[@id="main-content"]/div/section[1]/div/div/div[1]/input").css("visibility,"visible");';
-    let change_display = '$x("//*[@id="main-content"]/div/section[1]/div/div/div[1]/input").css("display,"block");';
-    await driver.execute_script(change_visibility);
-    await driver.execute_script(change_display);*/
-
     const path = require('path');
     const filePath = path.join(__dirname, '../shared-objects/fileUpldFolder/upload.txt');
     const remoteFilePath =  await driver.uploadFile(filePath);
-    let uploadButton = await driver.$(courseData.elem.uploadBtn);
-    //let pathArray = [remoteFilePath, remoteFilePath];
-    await uploadButton.sendKeys(remoteFilePath);
 
-    //await driver.$(courseData.uploadBtn).send_keys(filePath);
+    let uploadButton = await driver.$(courseData.elem.uploadBtn);
+
+    driver.execute(
+      (el) => el.style.display = 'block',
+      uploadButton
+    );
+    uploadButton.waitForDisplayed();
+    await driver.$(uploadButton).setValue(remoteFilePath);
+    //await uploadButton.sendKeys('../shared-objects/fileUpldFolder/upload.txt');
+
   },
   
   addBasicHometaskWithoutText: async function(coursename, taskname) {
