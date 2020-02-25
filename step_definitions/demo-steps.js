@@ -5,7 +5,7 @@ const helpers = require('../runtime/helpers.js');
 const demo = require('../page-objects/demo.js');
 
 Given(/^the user started on the login page and$/, async function() {
-    return await helpers.loadPage(loginData.url, 10);
+    return await helpers.loadPage(loginData.urlStart, 10);
   });
 
 Given(/^the user uses teacher demo account$/, async function() {

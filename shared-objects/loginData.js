@@ -1,6 +1,7 @@
 const { CLIENT } = require("./servers");
 
 module.exports = {
+  urlStart: `${CLIENT.URL}`,
   url: `${CLIENT.URL}/login`,
   urlDashboard: `${CLIENT.URL}/dashboard`,
   urlAccountSettings: `${CLIENT.URL}/account`,
