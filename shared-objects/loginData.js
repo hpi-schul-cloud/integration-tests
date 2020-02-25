@@ -3,6 +3,7 @@ const { CLIENT } = require("./servers");
 module.exports = {
   url: `${CLIENT.URL}/login`,
   urlDashboard: `${CLIENT.URL}/dashboard`,
+  urlAccountSettings: `${CLIENT.URL}/account`,
 
   defaultTeacherUsername: 'klara.fall@schul-cloud.org',
   defaultTeacherpassword: 'Schulcloud1!',
@@ -20,7 +21,7 @@ module.exports = {
     icon: 'div[data-testid="icon-clickable"]',
     settings: 'a[data-testid="settings"]',
     logout: 'a[data-testid="logout"]',
-    // Einwilligungserklärung:
+    // Data protection
     box1: 'input[name="privacyConsent"]',
     box2: 'input[name="termsOfUseConsent"]',
     passwordSet: 'input[data-testid="firstlogin_password"]',
