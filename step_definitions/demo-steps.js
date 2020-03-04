@@ -12,17 +12,12 @@ Given(/^the user uses teacher demo account$/, async function() {
     return  await demo.demoLoginTeacher();
   });
 
-Given(/^user goes to account settings$/, function() {
+When(/^user goes to account settings$/, function() {
     return helpers.loadPage(loginData.urlAccountSettings, 10);
   });
   
-When(/^user changes email to (.*)$/, function(email) {
-    return demo.tryChangeEmail(email)
+Then(/^user cannot change email to (.*) in the profile with (.*)$/, function(email,password) {
+    return demo.tryChangeEmail(email,password)
   });  
  
-  When(/^user submits the demo account demo account password (.*)$/, function(password) {
-    return 'pending'
-  });  
-  Then(/^the email cannot be changed$/, function() {
-    return 'pending'
-  });  
+

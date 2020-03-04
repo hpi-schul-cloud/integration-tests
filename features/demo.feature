@@ -7,10 +7,9 @@ Given the user started on the login page and
 
 Scenario Outline: 
 Given the user uses teacher demo account
-Given user goes to account settings
-When user changes email to <new email>
-When user submits the demo account demo account password <password>
-Then the email cannot be changed
+When user goes to account settings
+Then user cannot change email to <new email> in the profile with <password> 
+
 Examples:
 | new email                  | password   |
 | newemail@schul-cloud.org   | schulcloud | 
