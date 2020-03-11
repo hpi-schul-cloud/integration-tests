@@ -1,6 +1,7 @@
 'use strict';
 
 const teamData = require('../shared-objects/teamsData');
+const Axios = require('axios');
 const helpers = require('../runtime/helpers.js')
 
 
@@ -119,5 +120,21 @@ module.exports = {
         const teamNames = await Promise.all(namePromises);
         return teamNames;
     },
+    getUsersPermissions: async function () {
+        const cookie = await driver.getCookies(['jwt']);
+        const jwt = cookie[0].value;
+        const info = await Axios.request({
+          url: `${"http://localhost:3030"}/me`, // serverUrl
+          method: 'get',
+          headers: {
+            Authorization: `${jwt}`
+          }
+        });
+        //const myRole = info.data.roles[0].displayName; // eg. administrator
+        var myPermissions = info.data.permissions;
+        var teamPermissions =  await myPermissions.filter(e=> e.includes("TEAM"));
+        return teamPermissions;
+    },
+   
   
 }

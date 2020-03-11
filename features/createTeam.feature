@@ -20,15 +20,13 @@ Examples:
 
 @teamPermissionsCheck
 
-Feature: a user can do allowed actions and cannot do action for which he/she has no permissions
 
 Scenario Outline: user logs in and according to his/her role can do some actions in/with teams
 Given the user started on the login page and
 Given the user with <username> and <password> successfully logged in
-Given the user has a certain role x
-When the user has a certain permission for the role x
-Then the user can do some actions in accordance with this permission
-Then the user cannot do actions related to permission he/she doesnt have
+When the user has certain permissions in accordance with his role
+#Then the user can do some actions in accordance with this permission
+#Then the user cannot do actions related to permission he/she doesnt have
 
 Examples:
 | username                       | password          | 
@@ -36,3 +34,5 @@ Examples:
 | paula.meyer@schul-cloud.org    | Schulcloud1!      | 
 | klara.fall@schul-cloud.org     | Schulcloud1!      | 
 | admin@schul-cloud.org          | Schulcloud1!      | 
+| superhero@schul-cloud.org      | Schulcloud1!      | 
+

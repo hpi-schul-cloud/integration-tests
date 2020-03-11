@@ -5,6 +5,7 @@ const createTeam = require('../page-objects/createTeam');
 let teacherLogin = require('../page-objects/teacherLogin');
 let newPupil = require('../page-objects/administration');
 const Login = require('../shared-objects/loginData');
+const firstLogin = require('../shared_steps/firstLogin.js');
 let fullname1;
 let fullname2;
 let teamName;
@@ -12,8 +13,7 @@ let teamName;
 
 
 Given(/^the teacher started on the login page and$/, function() {
-    let url = loginData.url;
-    return helpers.loadPage(url, 10);
+    return helpers.loadPage(loginData.url, 10);
   });
 Given(/^teacher successfully logged in$/, function() {
     return teacherLogin.performLogin(Login.defaultTeacherUsername,Login.defaultTeacherpassword);
@@ -40,3 +40,15 @@ Then(/^this team should be displayed on the team page$/, async function() {
     let teamNames = await createTeam.getTeamNames();
     await expect(teamNames).to.include(teamName);
   });
+// API test
+  Given(/^the user started on the login page and$/, function() {
+    return helpers.loadPage(loginData.url, 10);
+  });
+  Given(/^the user with (.*) and (.*) successfully logged in$/, function(username, password) {
+    return fir.performLogin(username, password);
+  });
+  When(/^the user has certain permissions in accordance with his role$/, function() {
+    return createTeam.getUsersPermissions();
+  });
+
+  
