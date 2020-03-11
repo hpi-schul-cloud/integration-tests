@@ -1,9 +1,8 @@
 'use strict';
 
 const teamData = require('../shared-objects/teamsData');
-const { expect } = require('chai');
-let numberOFmatches;
-let pupilNames;
+const helpers = require('../runtime/helpers.js')
+
 
 const chosenSearchableSelectHelper = (driver, selectSelector) => ({
     getAvailableOptions: async () => {
@@ -25,7 +24,16 @@ const chosenSearchableSelectHelper = (driver, selectSelector) => ({
         const searchResult = await container.$(`.chosen-results .active-result.highlighted`)
         await searchResult.click();
     }
-})
+});
+// user: "TEAM_CREATE", "TEAM_EDIT", "TEAM_VIEW",
+// admin: "TEAM_INVITE_EXTERNAL"
+// demo: only view!
+// team member: leave
+// team expert: leave team
+// teamleader: "CHANGE_TEAM_ROLES"
+// teamadministrator: rename
+// teamowner: delete
+const teamPermissions = ["TEAM_CREATE", "TEAM_EDIT", "TEAM_VIEW", "TEAM_INVITE_EXTERNAL", "LEAVE_TEAM", "CHANGE_TEAM_ROLES", "RENAME_TEAM", "DELETE_TEAM"]; 
 
 module.exports = {
     goToTeams: async function() {
@@ -35,7 +43,8 @@ module.exports = {
     addTeam: async function() {
         let url = teamData.addTeamURL;
         await helpers.loadPage(url, 20);
-        await driver.pause(2000);
+        await driver.pause(1000);
+        // FIXME
     },
     setTeamName: async function(name) {
         let nameField = await driver.$(teamData.teamName);
