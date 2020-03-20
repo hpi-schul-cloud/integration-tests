@@ -1,7 +1,8 @@
 'use strict';
 
 const Login = require('../shared-objects/loginData');
-const helpers = require('../runtime/helpers.js')
+const helpers = require('../runtime/helpers.js');
+const Axios= require('axios');
 var secondCharacter;
 
 module.exports = {
@@ -98,5 +99,39 @@ module.exports = {
     await logOut.click();
     let usernameField = await driver.$('input[data-testid="username"]');
     await usernameField.waitForDisplayed(3000);
+  },
+  getUserRole: async function() {
+    
+      const cookie = await driver.getCookies(['jwt']);
+      const jwt = cookie[0].value;
+      const info = await Axios.request({
+        url: `${"http://localhost:3030"}/me`, // serverUrl
+        method: 'get',
+        headers: {
+          Authorization: `${jwt}`
+        }
+      });
+      const myRole = info.data.roles[0].displayName; // eg. administrator
+      return myRole;
+
+  },
+  // firstlogin for all!
+  firstLogin: async function(password) {
+    let role = await this.getUserRole();
+    switch (role) {
+
+      case "Schüler": 
+      await this.firstLoginPupilFullAge(password);
+
+      case "Lehrer":
+      await this.firstLoginTeacher();
+
+      case "Administrator":
+      await this.firstLoginTeacher();
+
+    }
+   
+
+
   }
 };

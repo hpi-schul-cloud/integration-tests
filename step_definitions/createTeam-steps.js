@@ -45,7 +45,8 @@ Then(/^this team should be displayed on the team page$/, async function() {
     return helpers.loadPage(loginData.url, 10);
   });
   Given(/^the user with (.*) and (.*) successfully logged in$/, function(username, password) {
-    return fir.performLogin(username, password);
+    firstLogin.performLogin(username, password);
+    firstLogin.firstLogin(password); 
   });
   When(/^the user has certain permissions in accordance with his role$/, function() {
     return createTeam.getUsersPermissions();

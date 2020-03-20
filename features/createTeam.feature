@@ -30,7 +30,6 @@ When the user has certain permissions in accordance with his role
 
 Examples:
 | username                       | password          | 
-| demo-schueler@schul-cloud.org  | schulcloud        | 
 | paula.meyer@schul-cloud.org    | Schulcloud1!      | 
 | klara.fall@schul-cloud.org     | Schulcloud1!      | 
 | admin@schul-cloud.org          | Schulcloud1!      | 
