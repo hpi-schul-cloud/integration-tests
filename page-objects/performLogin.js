@@ -1,26 +1,22 @@
 'use strict';
 
 const loginData = require('../shared-objects/loginData'),
-  imageCompare = require('../runtime/imageCompare'),
-  shared = ({loginData});
+	shared = { loginData };
 
 let log = global.log;
 let image;
 
 module.exports = {
-  
-    
-    performLogin: async function (username, password) {
-        image = username; 
+	performLogin: async function (username, password) {
+		image = username;
 
-        let loginSel = await driver.$(shared.loginData.elem.usernameInput);
-        await loginSel.setValue(username);
+		let loginSel = await driver.$(shared.loginData.elem.usernameInput);
+		await loginSel.setValue(username);
 
-        let passwordSel = await driver.$(shared.loginData.elem.passwordInput);
-        await passwordSel.setValue(password);
+		let passwordSel = await driver.$(shared.loginData.elem.passwordInput);
+		await passwordSel.setValue(password);
 
-        let loginBtnSel = await driver.$(loginData.elem.submitBtn);
-        await loginBtnSel.click();
-
-    }
+		let loginBtnSel = await driver.$(loginData.elem.submitBtn);
+		await loginBtnSel.click();
+	},
 };

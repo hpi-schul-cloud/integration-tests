@@ -1,10 +1,9 @@
 # BDD Testing for the HPI Schul-Cloud
 
-
 ## Available Tests
 
-| name               | description                            |
-| ------------------ | -------------------------------------- |
+| name                 | description                            |
+| -------------------- | -------------------------------------- |
 | `adminLogin`         | tests the login with an admin account  |
 | `teacherLogin`       | tests the login with a teacher account |
 | `pupilLogin`         | tests the login with a pupil account   |
@@ -12,8 +11,7 @@
 
 ## Installation
 
-First you need to setup and start a local version of Schulcloud & a database following this documentation: https://docs.schul-cloud.org/display/SCDOK/Setup
-This is the project against we run all the tests
+First you need to setup and start a local version of Schulcloud & a database following this documentation: https://docs.schul-cloud.org/display/SCDOK/Setup This is the project against we run all the tests
 
 ```bash
 # install all direct dependencies
@@ -48,9 +46,9 @@ npm run test -- -t @teacherLogin
 
 #### Environment Variables
 
-key | description
----|---
-IT_CLIENT_URL | URL where the [schulcloud-client](https://github.com/schul-cloud/schulcloud-client) is running.
+| key | description |
+| --- | --- |
+| IT_CLIENT_URL | URL where the [schulcloud-client](https://github.com/schul-cloud/schulcloud-client) is running. |
 
 #### Command Line Parameters
 
@@ -86,28 +84,26 @@ By default tests are run using Google Chrome, to run tests using another browser
 
 The following variables are available within the `Given()`, `When()` and `()` functions:
 
-| Variable      | Description                                                                                                      |
-| :------------ | :--------------------------------------------------------------------------------------------------------------- |
-| `driver`      | an instance of [web driver](https://webdriver.io/docs/setuptypes.html) (_the browser_)                           |
-| `webdriverio` | the raw [webdriver](https://webdriver.io/docs/api.html) module, providing access to static properties/methods    |
-| `page`        | collection of **page** objects loaded from disk and keyed by filename                                            |
-| `shared`      | collection of **shared** objects loaded from disk and keyed by filename                                          |
-| `helpers`     | a collection of [helper methods](runtime/helpers.js) _things webdriver.io does not provide but really should!_   |
-| `expect`      | instance of [chai expect](https://www.chaijs.com/api/bdd/) to `expect('something').to.equal('something')`        |
-| `assert`      | instance of [chai assert](https://www.chaijs.com/api/assert/) to `assert.isOk('everything', 'everything is ok')` |
-| `trace`       | handy trace method to log console output with increased visibility                                               |
-| `fs`          | exposes fs (file system) for use globally                                                                        |
-| `dir`         | exposes dir for getting an array of files, subdirectories or both                                                |
-| `request`     | exposes the request-promise for API testing                                                                      | `use for making API calls` |
-| `date`        | exposes the date method for logs and reports                                                                     |
-| `log`         | exposes the log method for output to files and emailing                                                          |
-| `envConfig`   | exposes the global environment configuration file                                                                | `for use when changing environment types (i.e. dev, test, preprod)` |
+| Variable | Description |
+| :-- | :-- |
+| `driver` | an instance of [web driver](https://webdriver.io/docs/setuptypes.html) (_the browser_) |
+| `webdriverio` | the raw [webdriver](https://webdriver.io/docs/api.html) module, providing access to static properties/methods |
+| `page` | collection of **page** objects loaded from disk and keyed by filename |
+| `shared` | collection of **shared** objects loaded from disk and keyed by filename |
+| `helpers` | a collection of [helper methods](runtime/helpers.js) _things webdriver.io does not provide but really should!_ |
+| `expect` | instance of [chai expect](https://www.chaijs.com/api/bdd/) to `expect('something').to.equal('something')` |
+| `assert` | instance of [chai assert](https://www.chaijs.com/api/assert/) to `assert.isOk('everything', 'everything is ok')` |
+| `trace` | handy trace method to log console output with increased visibility |
+| `fs` | exposes fs (file system) for use globally |
+| `dir` | exposes dir for getting an array of files, subdirectories or both |
+| `request` | exposes the request-promise for API testing | `use for making API calls` |
+| `date` | exposes the date method for logs and reports |
+| `log` | exposes the log method for output to files and emailing |
+| `envConfig` | exposes the global environment configuration file | `for use when changing environment types (i.e. dev, test, preprod)` |
 
 ### Visual Regression functionality with [Resemble JS](https://github.com/rsmbl/Resemble.js)
 
-Visual regression testing, gives the ability to take and compare whole page screenshots or of specific parts of the application / page under test.
-If there are Elements in the page that contain dynamic contents (like a clock or something like tipp of the day), you can hide this elements before
-taking the screenshot by passing the selector (or an array of selectors) to the saveScreenshot function.
+Visual regression testing, gives the ability to take and compare whole page screenshots or of specific parts of the application / page under test. If there are Elements in the page that contain dynamic contents (like a clock or something like tipp of the day), you can hide this elements before taking the screenshot by passing the selector (or an array of selectors) to the saveScreenshot function.
 
 ```js
 // ./runtime/imageCompare.js
@@ -136,32 +132,32 @@ You can register event handlers for the following events within the cucumber lif
 
 const {After, Before, AfterAll, BeforeAll} = require('cucumber');
 
-| Event     | Example                                                                    |
-| --------- | -------------------------------------------------------------------------- |
-| Before    | `Before(function() { // This hook will be executed before all scenarios})` |
-| After     | `After(function() {// This hook will be executed after all scenarios});`   |
-| BeforeAll | `BeforeAll(function() {// perform some shared setup});`                    |
-| AfterAll  | `AfterAll(function() {// perform some shared teardown});`                  |
+| Event | Example |
+| --- | --- |
+| Before | `Before(function() { // This hook will be executed before all scenarios})` |
+| After | `After(function() {// This hook will be executed after all scenarios});` |
+| BeforeAll | `BeforeAll(function() {// perform some shared setup});` |
+| AfterAll | `AfterAll(function() {// perform some shared teardown});` |
 
 ## How to debug
 
-Most webdriverio methods return a [JavaScript Promise](https://spring.io/understanding/javascript-promises "view JavaScript promise introduction") that is resolved when the method completes. The easiest way to step in with a debugger is to add a `.then` method to a selenium function and place a `debugger` statement within it, for example:
+Most webdriverio methods return a [JavaScript Promise](https://spring.io/understanding/javascript-promises 'view JavaScript promise introduction') that is resolved when the method completes. The easiest way to step in with a debugger is to add a `.then` method to a selenium function and place a `debugger` statement within it, for example:
 
 ```js
-When(/^I search DuckDuckGo for "([^"]*)"$/, function(searchQuery, done) {
-  driver
-    .element("#search_form_input_homepage")
-    .then(function(input) {
-      expect(input).to.exist;
-      debugger; // <<- your IDE should step in at this point, with the browser open
-      return input;
-    })
-    .then(function(input) {
-      input.setValue(selector, searchQuery);
-      input.setValue(selector, "Enter");
+When(/^I search DuckDuckGo for "([^"]*)"$/, function (searchQuery, done) {
+	driver
+		.element('#search_form_input_homepage')
+		.then(function (input) {
+			expect(input).to.exist;
+			debugger; // <<- your IDE should step in at this point, with the browser open
+			return input;
+		})
+		.then(function (input) {
+			input.setValue(selector, searchQuery);
+			input.setValue(selector, 'Enter');
 
-      done(); // <<- let cucumber know you're done
-    });
+			done(); // <<- let cucumber know you're done
+		});
 });
 ```
 
@@ -188,8 +184,7 @@ You can use the framework without any command line arguments if your application
 
 ## Bugs
 
-Please raise framework related bugs via the [klassi-js issue tracker](https://github.com/larryg01/klassi-js/issues) and, if possible, please provide enough information to allow the bug to be 
-reproduced. 
+Please raise framework related bugs via the [klassi-js issue tracker](https://github.com/larryg01/klassi-js/issues) and, if possible, please provide enough information to allow the bug to be reproduced.
 
 ## Contributing to the framework
 

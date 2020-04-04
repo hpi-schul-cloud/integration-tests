@@ -1,34 +1,41 @@
 'use strict';
 
-let teacherLogin = require('../page-objects/teacherLogin');
 let loginData = require('../shared-objects/loginData');
-const firstLogin = require('../shared_steps/firstLogin.js');
 
 Given(/^The teacher arrives on the Schul-Cloud homepage$/, async () => {
-  return await ppage.goto(loginData.url)
+	return await browserPage.goto(loginData.url);
 });
 
-When(/^the teacher puts in (.*) and (.*) and click the login-button$/, async (
-  username,
-  password
-) => {
-  const selectorUsername = 'input[name="username"]';
-	const selectorPassword = 'input[name="password"]';
-	const selectorSubmit = 'input[type="submit"]';
+When(
+	/^the teacher puts in (.*) and (.*) and click the login-button$/,
+	async (username, password) => {
+		const selectorUsername = 'input[name="username"]';
+		const selectorPassword = 'input[name="password"]';
+		const selectorSubmit = 'input[type="submit"]';
 
-	await ppage.type(selectorUsername, username);
-	await ppage.type(selectorPassword, password);
-  await ppage.click(selectorSubmit);
-});
+		await browserPage.type(selectorUsername, username);
+		await browserPage.type(selectorPassword, password);
+		await browserPage.click(selectorSubmit);
+	}
+);
 
-Then(/^the teacher should accept the data protection$/, function() {
-  return firstLogin.firstLoginTeacher();
+Then(/^the teacher should accept the data protection$/, async () => {
+	await browserPage.click('#nextSection');
+	await browserPage.click('#nextSection');
+	await browserPage.waitFor("input[name='privacyConsent']");
+	await browserPage.click("input[name='privacyConsent']");
+	await browserPage.click("input[name='termsOfUseConsent']");
+	await browserPage.click('#nextSection');
+	await browserPage.waitFor('.form-submitted');
+	await browserPage.click('a[data-testid="btn_schul-cloud_erkunden"]');
 });
 
 Then(
-  /^the teacher-dashboard should have an icon with the teacher's initials$/,
-  function() {
-    expect(ppage.url()).to.include("/dashboard");
-
-  }
+	/^the user should see the dashboard with there ([A-Z]{2})$/,
+	async (initials) => {
+		expect(browserPage.url()).to.include('/dashboard');
+		expect(await browserPage.$eval('.initials', (e) => e.innerText)).to.equal(
+			initials
+		);
+	}
 );
