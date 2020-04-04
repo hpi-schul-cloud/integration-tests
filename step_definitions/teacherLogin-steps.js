@@ -2,20 +2,23 @@
 
 let teacherLogin = require('../page-objects/teacherLogin');
 let loginData = require('../shared-objects/loginData');
-let shared = { loginData };
-let page = { teacherLogin };
 const firstLogin = require('../shared_steps/firstLogin.js');
 
-Given(/^The teacher arrives on the Schul-Cloud homepage$/, function() {
-  return helpers.loadPage(shared.loginData.url, 10);
+Given(/^The teacher arrives on the Schul-Cloud homepage$/, async () => {
+  return await ppage.goto(loginData.url)
 });
 
-When(/^the teacher puts in (.*) and (.*) and click the login-button$/, function(
+When(/^the teacher puts in (.*) and (.*) and click the login-button$/, async (
   username,
   password
-) {
-  /** use a method on the page object which also returns a promise */
-  return page.teacherLogin.performLogin(username, password);
+) => {
+  const selectorUsername = 'input[name="username"]';
+	const selectorPassword = 'input[name="password"]';
+	const selectorSubmit = 'input[type="submit"]';
+
+	await ppage.type(selectorUsername, username);
+	await ppage.type(selectorPassword, password);
+  await ppage.click(selectorSubmit);
 });
 
 Then(/^the teacher should accept the data protection$/, function() {
@@ -25,6 +28,7 @@ Then(/^the teacher should accept the data protection$/, function() {
 Then(
   /^the teacher-dashboard should have an icon with the teacher's initials$/,
   function() {
-    return teacherLogin.loginResult();
+    expect(ppage.url()).to.include("/dashboard");
+
   }
 );

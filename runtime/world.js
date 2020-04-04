@@ -247,13 +247,23 @@ setDefaultTimeout(cucumberTimeout);
 // start recording of the Test run time
 global.startDateTime = require('./helpers').getStartDateTime();
 
+const { chromium } = require('playwright');
 /**
  * create the driver before scenario if it's not instantiated
  */
+let browser
 Before(async () => {
-  global.driver = getDriverInstance();
-  global.browser = global.driver; // ensure standard WebDriver global also works
-  await driver;
+  if(!browser){
+    browser = await chromium.launch({
+      // headless: false,
+    });
+  }
+  const context = await browser.newContext();
+  const page = await context.newPage();
+
+  global.ppage = page;
+  // global.driver = page;
+  // global.browser = page; // ensure standard WebDriver global also works
 });
 
 /**
@@ -276,64 +286,14 @@ Before(function() {
 });
 
 /**
- * send email with the report to stakeholders after test run
- */
-AfterAll(async () => {
-  let driver = global.driver;
-  if (program.email) {
-    driver.pause(DELAY_3_SECOND).then(function() {
-      return helpers.klassiEmail();
-    });
-  }
-});
-
-/**
- * compile and generate a report at the END of the test run and send an Email
- */
-AfterAll(function(done) {
-  let driver = global.driver;
-  if (global.paths.reports && fs.existsSync(global.paths.reports)) {
-    global.endDateTime = helpers.getEndDateTime();
-    let reportOptions = {
-      theme: 'bootstrap',
-      jsonFile: path.resolve(
-        global.paths.reports,
-        global.settings.reportName + '-' + date + '.json'
-      ),
-      output: path.resolve(
-        global.paths.reports,
-        global.settings.reportName + '-' + date + '.html'
-      ),
-      reportSuiteAsScenarios: true,
-      launchReport: !global.settings.disableReport,
-      ignoreBadJsonFile: true,
-      metadata: {
-        'Test Started': startDateTime,
-        'Test Completion': endDateTime,
-        Platform: process.platform,
-        'Test Environment': process.env.NODE_ENV || 'DEVELOPMENT',
-        Browser: global.settings.remoteConfig || global.browserName,
-        Executed:
-          remoteService && remoteService.type === 'browserstack'
-            ? 'Remote'
-            : 'Local'
-      },
-      brandTitle: reportName + '-' + date,
-      name: projectName
-    };
-    driver.pause(DELAY_3_SECOND).then(function() {
-      reporter.generate(reportOptions);
-      driver.pause(DELAY_3_SECOND);
-    });
-  }
-  done();
-});
-
-/**
  *  executed after each scenario (always closes the browser to ensure fresh tests)
  */
 After(async function(scenario) {
+
+  await global.ppage.close()
+
   let driver = global.driver;
+  if(!driver){return;}
   if (scenario.result.status === Status.FAILED) {
     if (remoteService && remoteService.type === 'browserstack') {
       await driver.deleteSession();
@@ -356,6 +316,9 @@ After(async function(scenario) {
  */
 After(function(scenario) {
   let driver = global.driver;
+  if(!driver){
+    return;
+  }
   let world = this;
   if (scenario.result.status === Status.FAILED) {
     return driver.takeScreenshot().then(function(screenShot) {

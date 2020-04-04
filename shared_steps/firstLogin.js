@@ -13,17 +13,20 @@ module.exports = {
     await helpers.waitAndClick(Login.elem.submitBtn);
   },
   firstLoginTeacher: async function() {
-    let nextBtn = await driver.$('#nextSection');
-    await nextBtn.click();
-    await nextBtn.click();
-    await driver.pause(1500);
-    await this.dataProtection();
-    await nextBtn.click();
-    await driver.$('.form-submitted');
-    let start = await driver.$('a[data-testid="btn_schul-cloud_erkunden"]');
-    await start.waitForDisplayed(15000);
-    await start.click();
-    await driver.pause(1500);
+    if(!ppage.url().includes("/firstlogin")){
+      return;
+    }
+    await ppage.click('#nextSection');
+    await ppage.click('#nextSection');
+
+    // dataprotection
+    await ppage.waitFor('input[name=\'privacyConsent\']');
+    await ppage.click('input[name=\'privacyConsent\']');
+    await ppage.click('input[name=\'termsOfUseConsent\']');
+
+    await ppage.waitFor('.form-submitted');
+    await ppage.click('#nextSection');
+    await ppage.click('a[data-testid="btn_schul-cloud_erkunden"]');
   },
   firstLoginAdmin: async function() {
     let nextBtn = await driver.$('#nextSection');
@@ -37,12 +40,9 @@ module.exports = {
     await start.click();
   },
   dataProtection: async function() {
-   let box1 = await driver.$('input[name=\'privacyConsent\']');
-   await box1.waitForExist(2000);
-    await box1.click();
-    let box2 = await driver.$('input[name=\'termsOfUseConsent\']');
-    await box2.waitForExist(2000);
-    await box2.click();
+    await ppage.waitFor('input[name=\'privacyConsent\']');
+    await ppage.click('input[name=\'privacyConsent\']');
+    await ppage.click('input[name=\'termsOfUseConsent\']');
   },
   firstLoginPupilFullAge: async function(name, pass) {
     let nextBtn = "#nextSection";

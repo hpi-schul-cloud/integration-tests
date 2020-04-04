@@ -53,6 +53,7 @@
     "node-dir": "^0.1.17",
     "node-resemble-js": "^0.2.0",
     "nodemailer": "^5.1.1",
+    "playwright": "^0.12.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
     "require-dir": "^1.2.0",
