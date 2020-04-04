@@ -31,7 +31,7 @@ Then(/^the teacher should accept the data protection$/, async () => {
 });
 
 Then(
-	/^the user should see the dashboard with there ([A-Z]{2})$/,
+	/^the user should see the dashboard with there initials ([A-Z]{2})$/,
 	async (initials) => {
 		expect(browserPage.url()).to.include('/dashboard');
 		expect(await browserPage.$eval('.initials', (e) => e.innerText)).to.equal(

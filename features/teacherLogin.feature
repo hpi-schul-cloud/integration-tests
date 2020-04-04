@@ -9,7 +9,7 @@ Feature: Logging in as a teacher
   Scenario Outline: User inputs the username and password
     When the teacher puts in <username> and <password> and click the login-button
     Then the teacher should accept the data protection
-    Then the user should see the dashboard with there <initials>
+    Then the user should see the dashboard with there initials <initials>
 
     Examples:
       |username|password|initials|
