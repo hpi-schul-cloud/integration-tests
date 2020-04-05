@@ -202,7 +202,7 @@ let browser;
 Before(async () => {
 	if (!browser) {
 		browser = await chromium.launch({
-			headless: false,
+			headless: true,
 		});
 	}
 	const context = await browser.newContext();
