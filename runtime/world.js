@@ -202,12 +202,15 @@ let browser;
 Before(async () => {
 	if (!browser) {
 		browser = await chromium.launch({
-			headless: true,
+			headless: process.env.SHOW_BROWSER !== 'true',
 		});
 	}
 	const context = await browser.newContext();
+	// block all media requests (images, videos)
+	await context.route('**/*.{png,jpg,jpeg,gif,svg,mp4}', (route) =>
+		route.abort()
+	);
 	const page = await context.newPage();
-
 	global.browserPage = page;
 	// global.driver = page;
 	// global.browser = page; // ensure standard WebDriver global also works
