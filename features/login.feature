@@ -27,3 +27,14 @@ Feature: Logging in as a user
       |schueler@schul-cloud.org|Schulcloud1!|MM|
       |lehrer@schul-cloud.org|Schulcloud1!|CC|
       |admin@schul-cloud.org|Schulcloud1!|TT|
+
+@wrongPasswordLogin
+  Scenario Outline: A user should not be able to login with a wrong password
+    Given the user has opened /
+    When the user puts in <username> and <password> and click the login-button
+    Then the user should be on page /login
+    Then the user should see the notification "Login fehlgeschlagen."
+
+    Examples:
+      |username|password|
+      |schueler@schul-cloud.org|someWrongPassword|

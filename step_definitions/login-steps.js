@@ -1,5 +1,3 @@
-'use strict';
-
 When(
 	/^the user puts in (.*) and (.*) and click the login-button$/,
 	async (username, password) => {
