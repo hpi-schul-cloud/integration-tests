@@ -194,14 +194,14 @@ setDefaultTimeout(cucumberTimeout);
 // start recording of the Test run time
 global.startDateTime = require('./helpers').getStartDateTime();
 
-const { firefox } = require('playwright');
+const { chromium } = require('playwright');
 /**
  * create the driver before scenario if it's not instantiated
  */
 let browser;
 Before(async () => {
 	if (!browser) {
-		browser = await firefox.launch({
+		browser = await chromium.launch({
 			headless: process.env.SHOW_BROWSER !== 'true',
 		});
 	}

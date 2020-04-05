@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   integration:
-    runs-on: ubuntu-latest
+    container: arjun27/playwright-bionic:0.2.0
     steps:
       - name: execute tests
         run: curl "https://raw.githubusercontent.com/schul-cloud/integration-tests/develop/scripts/ci/fetch.github.sh" | bash
