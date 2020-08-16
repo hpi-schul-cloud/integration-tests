@@ -22,7 +22,10 @@ Feature: create different types of homework
     # Scenario Outline: create a private hometask has to be visible only for the teacher
     # Given the teacher creates one course with <coursename> and student with <studentname>
     # When teacher creates a private hometask in the course <coursename> with <taskname>
-    # When student with <username>, <password> of this course <coursename> goes to hometasks
+    # When teacher logs out
+    # When student with <username>, <password> logs in 
+    # When student goes to course <coursename> 
+    # When the student then goes to hometasks
     # Then the student will not see this task with <taskname>
     # Examples:
     # | coursename            | studentname | taskname             | username                    | password     |

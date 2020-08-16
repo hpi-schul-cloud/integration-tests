@@ -3,10 +3,29 @@
 const elementHelpers = require('../../../runtime/helpers/elementHelpers.js');
 const waitHelpers = require('../../../runtime/helpers/waitHelpers.js');
 const firstLogin = require('../../../shared_steps/firstLogin.js');
+
 const failureMessage = "Login fehlgeschlagen.";
-const usernameInput = 'section#loginarea input[data-testid="username"]';
-const passwordInput = 'section#loginarea input[data-testid="password"]';
-const loginBtn = 'input[data-testid="submit-login"]';
+
+const standardLoginSelectors = {
+	usernameInput = 'section#loginarea input[data-testid="username"]',
+	passwordInput = 'section#loginarea input[data-testid="password"]',
+	loginBtn = 'input[data-testid="submit-login"]',
+
+},
+
+const loginData = {
+
+	defaultTeacherUsername: 'klara.fall@schul-cloud.org',
+	defaultTeacherUsername2: 'lehrer@schul-cloud.org',
+	defaultTeacherpassword: 'Schulcloud1!',
+	eligiblePupilUsername: 'demo-schueler@schul-cloud.org',
+	eligiblePupilPassword: 'schulcloud',
+	notEligiblePupilUsername: 'paula.meyer@schul-cloud.org',
+	notEligiblePupilPassword: 'Schulcloud1!',
+	defaultAdminUsername: 'admin@schul-cloud.org',
+	defaultAdminPassword: 'Schulcloud1!',
+},
+
 const firstLoginSel = {
 	dataProtection: {
 		box1: 'input[name="privacyConsent"]',
@@ -25,12 +44,14 @@ const firstLoginSel = {
 }
 
 module.exports = {
+	loginData,
+	
 	performLogin: async function (username, password) {
-		let loginSel = await driver.$(usernameInput);
+		let loginSel = await driver.$(standardLoginSelectors.usernameInput);
 		await loginSel.setValue(username);
-		let passwordSel = await driver.$(passwordInput);
+		let passwordSel = await driver.$(standardLoginSelectors.passwordInput);
 		await passwordSel.setValue(password);
-		let loginBtnSel = await driver.$(loginBtn);
+		let loginBtnSel = await driver.$(standardLoginSelectors.loginBtn);
 		await loginBtnSel.click();
 		await driver.pause(1500);
 	},
@@ -73,7 +94,7 @@ module.exports = {
 
 	wrongLoginResult: async function () {
 		expect(await elementHelpers.getElementText(".notification-content")).to.equal(failureMessage);
-		// let btn = await driver.$(loginBtn);
+		// let btn = await driver.$(selectors.loginBtn);
 		// let btnValue = btn.getAttribute('value');
 		// await expect(btnValue).to.match(/^Bitte.*Sekunden warten$/);
 	},
