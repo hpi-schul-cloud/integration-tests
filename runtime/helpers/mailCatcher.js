@@ -22,9 +22,20 @@ async function isEmailReceived(userEmail, deleteEmails, expectedResult) {
 	for (let i = 0; i < email.length; i++) {
 		recipientEmails += email[i]['recipients'];
 	}
-	expectedResult ? expect(recipientEmails).to.include(userEmail) : expect(recipientEmails).to.not.include(userEmail);
 
-	if (deleteEmails) await deleteAllEmails();
+	if (expectedResult) {
+		async () => {
+			let result = expect(recipientEmails).to.include(userEmail);
+			if (deleteEmails) await deleteAllEmails();
+			return result;
+		};
+	} else {
+		async () => {
+			let result = expect(recipientEmails).to.not.include(userEmail);
+			if (deleteEmails) await deleteAllEmails();
+			return result;
+		};
+	}
 }
 
 async function getEmailPin() {

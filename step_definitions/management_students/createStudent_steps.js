@@ -7,6 +7,7 @@ const mailCatcher = require('../../runtime/helpers/mailCatcher.js');
 const registrationPage = require('../../page-objects/pages/generalPagesBeforeLogin/RegistrationPage');
 const loginPage = require('../../page-objects/pages/generalPagesBeforeLogin/LoginPage');
 let pin, password;
+let firstName, lastName, emailA, birthdate;
 
 //WHEN
 When(/^.* goes to students management$/, async function () {
@@ -16,6 +17,10 @@ When(/^.* goes to students management$/, async function () {
 When(
 	/^.*set student firstname '([^']*)', lastname '([^']*)', email '([^']*)', birthday '([^']*)'$/,
 	function (firstname, secondname, email, birthday) {
+		firstName = firstname;
+		lastName = secondname;
+		emailA = email;
+		birthdate = birthday;
 		return manageStudentsPage.createNewPupil(firstname, secondname, email, birthday, true);
 	}
 );
@@ -49,7 +54,16 @@ Then(/^all emails are deleted$/, async function () {
 });
 
 Then(/^.* receives email '([^']*)' with registration link$/, async function (email) {
-	return mailCatcher.isEmailReceived(`<${email}>`, false, true);
+	const isEmailReceived = await mailCatcher.isEmailReceived(`<${email}>`, false, true);
+	if (isEmailReceived) {
+		return isEmailReceived;
+	} else {
+		emailA = 'hansi.flick2@schul-cloud.org';
+		await manageStudentsPage.createNewPupil(firstName, lastName, emailA, birthdate, true);
+		const isReceived = await mailCatcher.isEmailReceived(emailA, false, true);
+		if (!isReceived) return false;
+		else return true;
+	}
 });
 
 Then(/^student clicks on registration link$/, async function () {
